@@ -8,7 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/canary-weight: "30"
 spec:
   rules:
-    - host: dizertatie.com
+    - host: canary.com
       http:
         paths:
           - path: /
