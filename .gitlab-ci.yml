@@ -66,3 +66,16 @@ image:
     name: canary
     url: https://canary.example.com
   when: manual
+
+5_deleteAll_canary:
+  tags:
+    - docker
+  stage: canary
+  script:
+    - cd Kubernetes/Deployment-Canary
+    - kubectl delete all --all
+    - kubectl delete ingress --all
+  environment:
+    name: canary
+    url: https://canary.example.com
+  when: manual
