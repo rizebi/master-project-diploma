@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 20s
+  external_labels:
+    monitor: 'ebi-monitor'
+scrape_configs:
+  - job_name: 'dizertatie'
+    scrape_interval: 5s
+    metrics_path: /
+    static_configs:
+      - targets: ['192.168.100.10:7001']

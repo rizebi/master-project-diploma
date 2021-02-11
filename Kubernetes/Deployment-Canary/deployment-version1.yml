@@ -1,9 +1,7 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: kubeapp-canary
-  labels:
-    track: canary
+  name: kubeapp-production
   annotations:
     app.gitlab.com/app: CI_PROJECT_PATH_SLUG
     app.gitlab.com/env: CI_ENVIRONMENT_SLUG
@@ -12,22 +10,27 @@ spec:
   selector:
     matchLabels:
       app: dizertatie
-      version: "2"
+      version: "1"
   template:
     metadata:
       name: kubeapp
       labels:
         app: dizertatie
-        version: "2"
-        track: canary
+        version: "1"
       annotations:
         app.gitlab.com/app: CI_PROJECT_PATH_SLUG
         app.gitlab.com/env: CI_ENVIRONMENT_SLUG
     spec:
       containers:
         - name: kubeapp
-          image: ebieusebiu/dizertatie:version2
+          image: ebieusebiu/dizertatie:version1
           imagePullPolicy: Always
           ports:
             - name: kubeapp
               containerPort: 7000
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 7000
+            initialDelaySeconds: 60
+            periodSeconds: 3

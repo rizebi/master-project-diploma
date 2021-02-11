@@ -1,0 +1,54 @@
+minikube start
+minikube service NAME_OF_SERVICE
+
+kubectl apply -f deployment-version1.yml -f service-version1.yml -f ingress-version1.yml -f deployment-version2.yml -f service-version2.yml -f ingress-version2.yml
+
+kubectl delete all -all
+
+
+Am rulat si astea in GoogleCloudShell:
+helm repo add nginx-stable https://helm.nginx.com/stable
+helm repo update
+helm install nginx-ingress nginx-stable/nginx-ingress
+
+# Check that the ingress controller is installed successfully
+kubectl get service nginx-ingress-nginx-ingress
+
+
+Apoi dai:
+kubectl get all
+Si iei ip-ul de la Nginx, pe care il pui in Gitlab Kubernetes Base Domain
+
+
+#########
+Configure kubectl for gcloud
+Merge pe VM
+
+
+#########
+Configurare minikube pentru Gitlab:
+
+1) Start minikube
+minikube start
+
+2) Creare proxy:
+kubectl proxy --port=19970 --address 0.0.0.0 --accept-hosts '.*' &
+
+3) Pus port forwarding pe router
+
+4) Config Cluster
+a) Get api:
+kubectl cluster-info | grep -E 'Kubernetes master|Kubernetes control plane' | awk '/http/ {print $NF}'
+But in our case bill be (fix asa!)
+http://eusebiuebi.duckdns.org:19970
+
+b) Get certificate
+kubectl get secrets
+kubectl get secret <secret name> -o jsonpath="{['data']['ca\.crt']}" | base64 --decode
+
+c) Create service account
+kubectl apply -f gitlab-admin-service-account.yaml
+And get token:
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep gitlab | awk '{print $1}')
+
+kubectl apply -f gitlab-admin-service-account.yaml

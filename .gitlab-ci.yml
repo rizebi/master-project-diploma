@@ -1,22 +1,68 @@
 stages:
+  - recreate
+  - rolling
+  - bluegreen
   - canary
+  - ab_testing
 
 image:
   name: traherom/kustomize-docker
   entrypoint: [""]
 
-deploy_canary:
+1_onlyVersion1_canary:
   tags:
     - docker
   stage: canary
-  before_script:
-    - kubectl version
   script:
-    - cd Deployment-Canary
+    - cd Kubernetes/Deployment-Canary
+    - kubectl delete all --all
+    - kubectl delete ingress --all
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - kubectl apply -f deployment-version1.yml -f service-version1.yml -f ingress-version1.yml
+  environment:
+    name: canary
+    url: https://canary.example.com
+  when: manual
+
+2_bothVersions_canary:
+  tags:
+    - docker
+  stage: canary
+  script:
+    - cd Kubernetes/Deployment-Canary
     - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
     - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
     - kubectl apply -f deployment-version1.yml -f service-version1.yml -f ingress-version1.yml -f deployment-version2.yml -f service-version2.yml -f ingress-version2.yml
   environment:
     name: canary
     url: https://canary.example.com
-  #when: manual
+  when: manual
+
+3_onlyVersion2_canary:
+  tags:
+    - docker
+  stage: canary
+  script:
+    - cd Kubernetes/Deployment-Canary
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - kubectl apply -f deployment-version1.yml -f service-version1.yml -f ingress-version1.yml -f deployment-version2.yml -f service-version2.yml -f ingress-version2.yml
+  environment:
+    name: canary
+    url: https://canary.example.com
+  when: manual
+
+4_rollBack_canary:
+  tags:
+    - docker
+  stage: canary
+  script:
+    - cd Kubernetes/Deployment-Canary
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - kubectl apply -f deployment-version1.yml -f service-version1.yml -f ingress-version1.yml -f deployment-version2.yml -f service-version2.yml -f ingress-version2.yml
+  environment:
+    name: canary
+    url: https://canary.example.com
+  when: manual
