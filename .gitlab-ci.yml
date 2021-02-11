@@ -17,6 +17,6 @@ deploy_canary:
     - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
     - kubectl apply -f deployment-version1.yml -f service-version1.yml -f ingress-version1.yml -f deployment-version2.yml -f service-version2.yml -f ingress-version2.yml
   environment:
-    name: staging
-    url: https://staging.example.com
+    name: canary
+    url: https://canary.example.com
   #when: manual
