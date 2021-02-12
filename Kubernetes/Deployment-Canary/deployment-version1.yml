@@ -6,7 +6,7 @@ metadata:
     app.gitlab.com/app: CI_PROJECT_PATH_SLUG
     app.gitlab.com/env: CI_ENVIRONMENT_SLUG
 spec:
-  replicas: 1
+  replicas: 10
   selector:
     matchLabels:
       app: dizertatie

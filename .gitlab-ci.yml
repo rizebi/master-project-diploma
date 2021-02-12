@@ -9,6 +9,29 @@ image:
   name: traherom/kustomize-docker
   entrypoint: [""]
 
+0_fullPipeline_canary:
+  tags:
+    - docker
+  stage: canary
+  script:
+    - cd Kubernetes/Deployment-Canary
+    - kubectl delete all --all
+    - kubectl delete ingress --all
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    # Start version 1
+    - kubectl apply -f deployment-version1.yml -f service-version1.yml -f ingress-version1.yml
+    - sleep 600
+    # Start canary
+    - kubectl apply -f deployment-version2.yml -f service-version2.yml -f ingress-version2.yml
+    - sleep 600
+    # Rollback to only version 1
+    - kubectl delete -f deployment-version2.yml -f service-version2.yml -f ingress-version2.yml
+  environment:
+    name: canary
+    url: https://canary.example.com
+  when: manual
+
 1_onlyVersion1_canary:
   tags:
     - docker
@@ -39,7 +62,7 @@ image:
     url: https://canary.example.com
   when: manual
 
-3_onlyVersion2_canary:
+3_rollBack_canary:
   tags:
     - docker
   stage: canary
@@ -47,27 +70,13 @@ image:
     - cd Kubernetes/Deployment-Canary
     - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
     - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
-    - kubectl apply -f deployment-version1.yml -f service-version1.yml -f ingress-version1.yml -f deployment-version2.yml -f service-version2.yml -f ingress-version2.yml
+    - kubectl delete -f deployment-version2.yml -f service-version2.yml -f ingress-version2.yml
   environment:
     name: canary
     url: https://canary.example.com
   when: manual
 
-4_rollBack_canary:
-  tags:
-    - docker
-  stage: canary
-  script:
-    - cd Kubernetes/Deployment-Canary
-    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
-    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
-    - kubectl apply -f deployment-version1.yml -f service-version1.yml -f ingress-version1.yml -f deployment-version2.yml -f service-version2.yml -f ingress-version2.yml
-  environment:
-    name: canary
-    url: https://canary.example.com
-  when: manual
-
-5_deleteAll_canary:
+4_deleteAll_canary:
   tags:
     - docker
   stage: canary
