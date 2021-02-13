@@ -14,7 +14,7 @@ image:
     - docker
   stage: canary
   script:
-    - cd Kubernetes/canary
+    - cd Kubernetes/Upgrade-Canary
     - kubectl delete all --all
     - kubectl delete ingress --all
     - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
@@ -37,7 +37,7 @@ image:
     - docker
   stage: canary
   script:
-    - cd Kubernetes/canary
+    - cd Kubernetes/Upgrade-Canary
     - kubectl delete all --all
     - kubectl delete ingress --all
     - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
@@ -53,7 +53,7 @@ image:
     - docker
   stage: canary
   script:
-    - cd Kubernetes/canary
+    - cd Kubernetes/Upgrade-Canary
     - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
     - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
     - kubectl apply -f deployment-version1.yml -f service-version1.yml -f ingress-version1.yml -f deployment-version2.yml -f service-version2.yml -f ingress-version2.yml
@@ -67,7 +67,7 @@ image:
     - docker
   stage: canary
   script:
-    - cd Kubernetes/canary
+    - cd Kubernetes/Upgrade-Canary
     - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
     - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
     - kubectl delete -f deployment-version2.yml -f service-version2.yml -f ingress-version2.yml
@@ -81,7 +81,7 @@ image:
     - docker
   stage: canary
   script:
-    - cd Kubernetes/canary
+    - cd Kubernetes/Upgrade-Canary
     - kubectl delete all --all
     - kubectl delete ingress --all
   environment:

@@ -1,0 +1,34 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: kubeapp-new
+  annotations:
+    app.gitlab.com/app: CI_PROJECT_PATH_SLUG
+    app.gitlab.com/env: CI_ENVIRONMENT_SLUG
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dizertatie
+  template:
+    metadata:
+      name: kubeapp
+      labels:
+        app: dizertatie
+      annotations:
+        app.gitlab.com/app: CI_PROJECT_PATH_SLUG
+        app.gitlab.com/env: CI_ENVIRONMENT_SLUG
+    spec:
+      containers:
+        - name: kubeapp
+          image: ebieusebiu/dizertatie:version2
+          imagePullPolicy: Always
+          ports:
+            - name: kubeapp
+              containerPort: 7000
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 7000
+            initialDelaySeconds: 60
+            periodSeconds: 1

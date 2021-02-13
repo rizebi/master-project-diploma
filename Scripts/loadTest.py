@@ -5,8 +5,12 @@ import threading
 from flask import Flask
 
 # Static values
+
+# For A/B testing setup
+#destinationIP = "http://localhost:8000"
+# For all other setups
 destinationIP = "http://192.168.64.2"
-#destinationIP = "http://localhost:7000"
+
 userAgent1 = "Always-Good"
 userAgent2 = "Sometimes-Fail"
 hostnameToUse = "dizertatie.com"
