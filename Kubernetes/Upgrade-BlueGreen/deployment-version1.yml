@@ -1,32 +1,29 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: kubeapp-canary
-  labels:
-    track: canary
+  name: kubeapp-blue
   annotations:
     app.gitlab.com/app: CI_PROJECT_PATH_SLUG
     app.gitlab.com/env: CI_ENVIRONMENT_SLUG
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: dizertatie
-      version: "2"
+      version: "1"
   template:
     metadata:
       name: kubeapp
       labels:
         app: dizertatie
-        version: "2"
-        track: canary
+        version: "1"
       annotations:
         app.gitlab.com/app: CI_PROJECT_PATH_SLUG
         app.gitlab.com/env: CI_ENVIRONMENT_SLUG
     spec:
       containers:
         - name: kubeapp
-          image: ebieusebiu/dizertatie:version2
+          image: ebieusebiu/dizertatie:version1
           imagePullPolicy: Always
           ports:
             - name: kubeapp

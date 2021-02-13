@@ -1,7 +1,7 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: kubeapp-production
+  name: kubeapp-green
   annotations:
     app.gitlab.com/app: CI_PROJECT_PATH_SLUG
     app.gitlab.com/env: CI_ENVIRONMENT_SLUG
@@ -10,20 +10,20 @@ spec:
   selector:
     matchLabels:
       app: dizertatie
-      version: "1"
+      version: "2"
   template:
     metadata:
       name: kubeapp
       labels:
         app: dizertatie
-        version: "1"
+        version: "2"
       annotations:
         app.gitlab.com/app: CI_PROJECT_PATH_SLUG
         app.gitlab.com/env: CI_ENVIRONMENT_SLUG
     spec:
       containers:
         - name: kubeapp
-          image: ebieusebiu/dizertatie:version1
+          image: ebieusebiu/dizertatie:version2
           imagePullPolicy: Always
           ports:
             - name: kubeapp
