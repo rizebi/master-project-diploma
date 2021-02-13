@@ -14,8 +14,8 @@ def getUptime():
     return time.time() - startTime
 
 # Parameters
-userAgentThatSometimesShouldFail = "Always-Fail"
-failRate = 100 # 50 means 50%
+userAgentThatSometimesShouldFail = "Sometimes-Fail"
+failRate = 50 # 50 means 50%
 
 # Flask app
 app = Flask(__name__)
@@ -30,7 +30,7 @@ def index():
   if userAgent != userAgentThatSometimesShouldFail:
     return '{"appVersion": "2", "status": "200"}'
   else:
-    randomNumber = randint(0, 100)
+    randomNumber = randint(0, 99)
     if randomNumber < failRate:
       return '{"appVersion": "2", "status": "500"}'
     else:

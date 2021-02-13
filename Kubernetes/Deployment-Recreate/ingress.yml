@@ -1,11 +1,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: dizertatie-ingress-version2
+  name: dizertatie-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/canary: "true"
-    nginx.ingress.kubernetes.io/canary-weight: "20"
 spec:
   rules:
     - host: dizertatie.com
@@ -15,6 +13,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: dizertatie-service-version2
+                name: dizertatie-service
                 port:
                   number: 80

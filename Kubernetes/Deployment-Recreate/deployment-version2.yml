@@ -1,14 +1,12 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: kubeapp-canary
-  labels:
-    track: canary
+  name: kubeapp-production
   annotations:
     app.gitlab.com/app: CI_PROJECT_PATH_SLUG
     app.gitlab.com/env: CI_ENVIRONMENT_SLUG
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: dizertatie
@@ -19,7 +17,6 @@ spec:
       labels:
         app: dizertatie
         version: "2"
-        track: canary
       annotations:
         app.gitlab.com/app: CI_PROJECT_PATH_SLUG
         app.gitlab.com/env: CI_ENVIRONMENT_SLUG

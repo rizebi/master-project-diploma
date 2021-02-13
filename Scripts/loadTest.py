@@ -8,8 +8,8 @@ from flask import Flask
 destinationIP = "http://192.168.64.2"
 #destinationIP = "http://localhost:7000"
 userAgent1 = "Always-Good"
-userAgent2 = "Always-Fail"
-hostnameToUse = "canary.com"
+userAgent2 = "Sometimes-Fail"
+hostnameToUse = "dizertatie.com"
 portToExposeMetrics = 7001
 
 # Flask app
@@ -30,17 +30,17 @@ def loadTest():
 
   while True:
     try:
-#       # User Agent 1
-#       headers = {'User-Agent': userAgent1, 'Host': hostnameToUse}
-#       resp = requests.get(destinationIP, headers=headers).json()
-#       if resp["appVersion"] == "1" and resp["status"] == "200":
-#         requests200V1 += 1
-#       if resp["appVersion"] == "1" and resp["status"] == "500":
-#         requests500V1 += 1
-#       if resp["appVersion"] == "2" and resp["status"] == "200":
-#         requests200V2 += 1
-#       if resp["appVersion"] == "2" and resp["status"] == "500":
-#         requests500V2 += 1
+      # User Agent 1
+      headers = {'User-Agent': userAgent1, 'Host': hostnameToUse}
+      resp = requests.get(destinationIP, headers=headers).json()
+      if resp["appVersion"] == "1" and resp["status"] == "200":
+        requests200V1 += 1
+      if resp["appVersion"] == "1" and resp["status"] == "500":
+        requests500V1 += 1
+      if resp["appVersion"] == "2" and resp["status"] == "200":
+        requests200V2 += 1
+      if resp["appVersion"] == "2" and resp["status"] == "500":
+        requests500V2 += 1
 
       # User Agent 2
       headers = {'User-Agent': userAgent2, 'Host': hostnameToUse}
@@ -55,7 +55,7 @@ def loadTest():
         requests500V2 += 1
     except:
       pass
-    time.sleep(0.1)
+    time.sleep(0.01)
 
 @app.route('/')
 def index():
