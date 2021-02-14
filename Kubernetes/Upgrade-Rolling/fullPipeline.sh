@@ -16,9 +16,9 @@ echo "Start version 2"
 kubectl -n dizertatie-minikube-24349559-canary apply -f deployment-version2.yml
 sleep 70 # to start new version
 echo "Scale down version1"
-kubectl -n dizertatie-minikube-24349559-canary apply -f deployment-version1-scaled-down.yml
+nohup kubectl -n dizertatie-minikube-24349559-canary apply -f deployment-version1-scaled-down.yml &
 
-sleep 300
+sleep 230 # 70 already slept
 date
 echo "Rollback to only version 1"
 kubectl -n dizertatie-minikube-24349559-canary delete -f deployment-version2.yml
