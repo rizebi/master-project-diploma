@@ -63,24 +63,30 @@
       "targets": [
         {
           "expr": "(requests200V1 + requests500V1) / (requests200V1 + requests200V2 + requests500V1 + requests500V2) * 100",
+          "format": "time_series",
+          "instant": true,
           "interval": "",
           "legendFormat": "Traffic Version 1",
           "refId": "A"
         },
         {
           "expr": "(requests200V2 + requests500V2) / (requests200V1 + requests200V2 + requests500V1 + requests500V2) * 100",
+          "instant": true,
           "interval": "",
           "legendFormat": "Traffic Version 2",
           "refId": "B"
         },
         {
           "expr": "(requests500V1 + requests500V2) / (requests200V1 + requests200V2 + requests500V1 + requests500V2) * 100",
+          "instant": true,
           "interval": "",
           "legendFormat": "Error Rate Total",
           "refId": "C"
         },
         {
           "expr": "(requests500V2) / (requests200V2 + requests500V2) * 100",
+          "hide": false,
+          "instant": true,
           "interval": "",
           "legendFormat": "Error Rate Version 2",
           "refId": "D"
@@ -525,10 +531,112 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
+        "h": 7,
+        "w": 15,
+        "x": 0,
+        "y": 24
+      },
+      "hiddenSeries": false,
+      "id": 14,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "(requests500V1 + requests500V2) / (requests200V1 + requests200V2 + requests500V1 + requests500V2) * 100",
+          "interval": "",
+          "legendFormat": "Error rate Total",
+          "refId": "A"
+        },
+        {
+          "expr": "(requests200V1 + requests200V2) / (requests200V1 + requests200V2 + requests500V1 + requests500V2) * 100",
+          "interval": "",
+          "legendFormat": "OK rate Total",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Response Rates",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 24
+        "y": 31
       },
       "hiddenSeries": false,
       "id": 6,
@@ -619,7 +727,7 @@
       }
     }
   ],
-  "refresh": false,
+  "refresh": "5s",
   "schemaVersion": 25,
   "style": "dark",
   "tags": [],
@@ -627,7 +735,7 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -646,5 +754,5 @@
   "timezone": "",
   "title": "Dizertatie Dashboard",
   "uid": "1jJV1Tkgz",
-  "version": 3
+  "version": 9
 }
