@@ -3,30 +3,237 @@ stages:
   - rolling
   - bluegreen
   - canary
-  - ab_testing
+  - ab_testing_sometimes_fail
+  - ab_testing_always_good
 
 image:
   name: traherom/kustomize-docker
   entrypoint: [""]
 
+###########################
+# Recreate
+0_fullPipeline_recreate:
+  tags:
+    - docker
+  stage: recreate
+  script:
+    - cd Kubernetes/Upgrade-Recreate
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh full
+  environment:
+    name: recreate
+    url: https://recreate.example.com
+  when: manual
+
+1_onlyVersion1_recreate:
+  tags:
+    - docker
+  stage: recreate
+  script:
+    - cd Kubernetes/Upgrade-Recreate
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh delete
+    - ./fullPipeline.sh v1
+  environment:
+    name: recreate
+    url: https://recreate.example.com
+  when: manual
+
+2_bothVersions_recreate:
+  tags:
+    - docker
+  stage: recreate
+  script:
+    - cd Kubernetes/Upgrade-Recreate
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh v2
+  environment:
+    name: recreate
+    url: https://recreate.example.com
+  when: manual
+
+3_rollBack_recreate:
+  tags:
+    - docker
+  stage: recreate
+  script:
+    - cd Kubernetes/Upgrade-Recreate
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh rollback
+  environment:
+    name: recreate
+    url: https://recreate.example.com
+  when: manual
+
+4_deleteAll_recreate:
+  tags:
+    - docker
+  stage: recreate
+  script:
+    - cd Kubernetes/Upgrade-Recreate
+    - ./fullPipeline.sh delete
+  environment:
+    name: recreate
+    url: https://recreate.example.com
+  when: manual
+
+###########################
+# Rolling
+0_fullPipeline_rolling:
+  tags:
+    - docker
+  stage: rolling
+  script:
+    - cd Kubernetes/Upgrade-Rolling
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh full
+  environment:
+    name: rolling
+    url: https://rolling.example.com
+  when: manual
+
+1_onlyVersion1_rolling:
+  tags:
+    - docker
+  stage: rolling
+  script:
+    - cd Kubernetes/Upgrade-Rolling
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh delete
+    - ./fullPipeline.sh v1
+  environment:
+    name: rolling
+    url: https://rolling.example.com
+  when: manual
+
+2_bothVersions_rolling:
+  tags:
+    - docker
+  stage: rolling
+  script:
+    - cd Kubernetes/Upgrade-Rolling
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh v2
+  environment:
+    name: rolling
+    url: https://rolling.example.com
+  when: manual
+
+3_rollBack_rolling:
+  tags:
+    - docker
+  stage: rolling
+  script:
+    - cd Kubernetes/Upgrade-Rolling
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh rollback
+  environment:
+    name: rolling
+    url: https://rolling.example.com
+  when: manual
+
+4_deleteAll_rolling:
+  tags:
+    - docker
+  stage: rolling
+  script:
+    - cd Kubernetes/Upgrade-Rolling
+    - ./fullPipeline.sh delete
+  environment:
+    name: rolling
+    url: https://rolling.example.com
+  when: manual
+
+###########################
+# BlueGreen
+0_fullPipeline_bluegreen:
+  tags:
+    - docker
+  stage: bluegreen
+  script:
+    - cd Kubernetes/Upgrade-BlueGreen
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh full
+  environment:
+    name: bluegreen
+    url: https://bluegreen.example.com
+  when: manual
+
+1_onlyVersion1_bluegreen:
+  tags:
+    - docker
+  stage: bluegreen
+  script:
+    - cd Kubernetes/Upgrade-BlueGreen
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh delete
+    - ./fullPipeline.sh v1
+  environment:
+    name: bluegreen
+    url: https://bluegreen.example.com
+  when: manual
+
+2_bothVersions_bluegreen:
+  tags:
+    - docker
+  stage: bluegreen
+  script:
+    - cd Kubernetes/Upgrade-BlueGreen
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh v2
+  environment:
+    name: bluegreen
+    url: https://bluegreen.example.com
+  when: manual
+
+3_rollBack_bluegreen:
+  tags:
+    - docker
+  stage: bluegreen
+  script:
+    - cd Kubernetes/Upgrade-BlueGreen
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh rollback
+  environment:
+    name: bluegreen
+    url: https://bluegreen.example.com
+  when: manual
+
+4_deleteAll_bluegreen:
+  tags:
+    - docker
+  stage: bluegreen
+  script:
+    - cd Kubernetes/Upgrade-BlueGreen
+    - ./fullPipeline.sh delete
+  environment:
+    name: bluegreen
+    url: https://bluegreen.example.com
+  when: manual
+
+###########################
+# Canary
 0_fullPipeline_canary:
   tags:
     - docker
   stage: canary
   script:
     - cd Kubernetes/Upgrade-Canary
-    - kubectl delete all --all
-    - kubectl delete ingress --all
     - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
     - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
-    # Start version 1
-    - kubectl apply -f deployment-version1.yml -f service-version1.yml -f ingress-version1.yml
-    - sleep 600
-    # Start canary
-    - kubectl apply -f deployment-version2.yml -f service-version2.yml -f ingress-version2.yml
-    - sleep 600
-    # Rollback to only version 1
-    - kubectl delete -f deployment-version2.yml -f service-version2.yml -f ingress-version2.yml
+    - ./fullPipeline.sh full
   environment:
     name: canary
     url: https://canary.example.com
@@ -38,11 +245,10 @@ image:
   stage: canary
   script:
     - cd Kubernetes/Upgrade-Canary
-    - kubectl delete all --all
-    - kubectl delete ingress --all
     - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
     - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
-    - kubectl apply -f deployment-version1.yml -f service-version1.yml -f ingress-version1.yml
+    - ./fullPipeline.sh delete
+    - ./fullPipeline.sh v1
   environment:
     name: canary
     url: https://canary.example.com
@@ -56,7 +262,7 @@ image:
     - cd Kubernetes/Upgrade-Canary
     - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
     - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
-    - kubectl apply -f deployment-version1.yml -f service-version1.yml -f ingress-version1.yml -f deployment-version2.yml -f service-version2.yml -f ingress-version2.yml
+    - ./fullPipeline.sh v2
   environment:
     name: canary
     url: https://canary.example.com
@@ -70,7 +276,7 @@ image:
     - cd Kubernetes/Upgrade-Canary
     - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
     - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
-    - kubectl delete -f deployment-version2.yml -f service-version2.yml -f ingress-version2.yml
+    - ./fullPipeline.sh rollback
   environment:
     name: canary
     url: https://canary.example.com
@@ -82,9 +288,151 @@ image:
   stage: canary
   script:
     - cd Kubernetes/Upgrade-Canary
-    - kubectl delete all --all
-    - kubectl delete ingress --all
+    - ./fullPipeline.sh delete
   environment:
     name: canary
     url: https://canary.example.com
+  when: manual
+
+###########################
+# AB-SometimesFail
+0_fullPipeline_ab_testing_sometimes_fail:
+  tags:
+    - docker
+  stage: ab_testing_sometimes_fail
+  script:
+    - cd Kubernetes/Upgrade-AB-SometimesFail
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh full
+  environment:
+    name: ab_testing_sometimes_fail
+    url: https://ab_testing_sometimes_fail.example.com
+  when: manual
+
+1_onlyVersion1_ab_testing_sometimes_fail:
+  tags:
+    - docker
+  stage: ab_testing_sometimes_fail
+  script:
+    - cd Kubernetes/Upgrade-AB-SometimesFail
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh delete
+    - ./fullPipeline.sh v1
+  environment:
+    name: ab_testing_sometimes_fail
+    url: https://ab_testing_sometimes_fail.example.com
+  when: manual
+
+2_bothVersions_ab_testing_sometimes_fail:
+  tags:
+    - docker
+  stage: ab_testing_sometimes_fail
+  script:
+    - cd Kubernetes/Upgrade-AB-SometimesFail
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh v2
+  environment:
+    name: ab_testing_sometimes_fail
+    url: https://ab_testing_sometimes_fail.example.com
+  when: manual
+
+3_rollBack_ab_testing_sometimes_fail:
+  tags:
+    - docker
+  stage: ab_testing_sometimes_fail
+  script:
+    - cd Kubernetes/Upgrade-AB-SometimesFail
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh rollback
+  environment:
+    name: ab_testing_sometimes_fail
+    url: https://ab_testing_sometimes_fail.example.com
+  when: manual
+
+4_deleteAll_ab_testing_sometimes_fail:
+  tags:
+    - docker
+  stage: ab_testing_sometimes_fail
+  script:
+    - cd Kubernetes/Upgrade-AB-SometimesFail
+    - ./fullPipeline.sh delete
+  environment:
+    name: ab_testing_sometimes_fail
+    url: https://ab_testing_sometimes_fail.example.com
+  when: manual
+
+
+###########################
+# AB-AlwaysGood
+0_fullPipeline_ab_testing_always_good:
+  tags:
+    - docker
+  stage: ab_testing_always_good
+  script:
+    - cd Kubernetes/Upgrade-AB-AlwaysGood
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh full
+  environment:
+    name: ab_testing_always_good
+    url: https://ab_testing_always_good.example.com
+  when: manual
+
+1_onlyVersion1_ab_testing_always_good:
+  tags:
+    - docker
+  stage: ab_testing_always_good
+  script:
+    - cd Kubernetes/Upgrade-AB-AlwaysGood
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh delete
+    - ./fullPipeline.sh v1
+  environment:
+    name: ab_testing_always_good
+    url: https://ab_testing_always_good.example.com
+  when: manual
+
+2_bothVersions_ab_testing_always_good:
+  tags:
+    - docker
+  stage: ab_testing_always_good
+  script:
+    - cd Kubernetes/Upgrade-AB-AlwaysGood
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh v2
+  environment:
+    name: ab_testing_always_good
+    url: https://ab_testing_always_good.example.com
+  when: manual
+
+3_rollBack_ab_testing_always_good:
+  tags:
+    - docker
+  stage: ab_testing_always_good
+  script:
+    - cd Kubernetes/Upgrade-AB-AlwaysGood
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh rollback
+  environment:
+    name: ab_testing_always_good
+    url: https://ab_testing_always_good.example.com
+  when: manual
+
+4_deleteAll_ab_testing_always_good:
+  tags:
+    - docker
+  stage: ab_testing_always_good
+  script:
+    - cd Kubernetes/Upgrade-AB-AlwaysGood
+    - ./fullPipeline.sh delete
+  environment:
+    name: ab_testing_always_good
+    url: https://ab_testing_always_good.example.com
   when: manual
