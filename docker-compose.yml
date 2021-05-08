@@ -1,0 +1,37 @@
+version: '3.2'
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: 'car-planner'
+      MYSQL_ROOT_PASSWORD: 'mypassword'
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - /Users/eusebiu.rizescu/dizertatie/mysql:/var/lib/mysql
+      - /Users/eusebiu.rizescu/dizertatie/mysql-conf/mycustom.cnf:/etc/mysql/conf.d/mycustom.cnf
+    networks:
+      - webnet
+
+  flask:
+    image: webapplication
+    container_name: flask
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - '5000:5000'
+    depends_on:
+      - mysql
+    volumes:
+      - /Users/eusebiu.rizescu/dizertatie/flask:/app
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    driver: overlay
+    internal: false
