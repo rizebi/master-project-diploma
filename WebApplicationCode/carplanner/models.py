@@ -23,20 +23,19 @@ class User(db.Model, UserMixin):
   __tablename__ = 'useri'
 
   IDUser = db.Column(db.Integer, primary_key = True)
-  imagineProfil = db.Column(db.String(50), nullable=False, default='default_profile.png')
   numeUser = db.Column(db.String(30), nullable=False)
   prenumeUser = db.Column(db.String(30), nullable=False)
   email = db.Column(db.String(30), nullable=False)
   parola = db.Column(db.String(128))
-  numeCompanie = db.Column(db.String(30))
+  adresa = db.Column(db.String(30))
   activated = db.Column(db.Boolean)
   hash = db.Column(db.String(50))
 
-  def __init__(self, numeUser, prenumeUser, email, parola, numeCompanie, hash):
+  def __init__(self, numeUser, prenumeUser, email, parola, adresa, hash):
     self.numeUser = numeUser
     self.prenumeUser = prenumeUser
     self.email = email
-    self.numeCompanie = numeCompanie
+    self.adresa = adresa
     self.parola = generate_password_hash(parola)
     self.activated = False
     self.hash = hash

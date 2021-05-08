@@ -4,7 +4,6 @@ from carplanner import db, app
 from werkzeug.security import generate_password_hash,check_password_hash
 from carplanner.models import User
 from carplanner.useri.forms import RegistrationForm, LoginForm, UpdateUserForm, ForgotForm
-from carplanner.useri.picture_handler import add_profile_pic
 import time
 import hashlib
 import smtplib
@@ -59,7 +58,7 @@ def register():
     user = User(email=form.email.data,
                 numeUser=form.numeUser.data,
                 prenumeUser=form.prenumeUser.data,
-                numeCompanie=form.numeCompanie.data,
+                adresa=form.adresa.data,
                 parola=form.parola.data,
                 hash=hashString)
 
@@ -173,15 +172,11 @@ def updateuser(email):
   form = UpdateUserForm()
 
   if form.validate_on_submit():
-    if form.picture.data:
-      email = current_user.email
-      pic = add_profile_pic(form.picture.data, email)
-      current_user.imagineProfil = pic
 
     current_user.email = form.email.data
     current_user.numeUser = form.numeUser.data
     current_user.prenumeUser = form.prenumeUser.data
-    current_user.numeCompanie = form.numeCompanie.data
+    current_user.adresa = form.adresa.data
     if form.parola.data:
       current_user.parola=generate_password_hash(form.parola.data)
 
@@ -193,11 +188,9 @@ def updateuser(email):
     form.email.data = current_user.email
     form.numeUser.data = current_user.numeUser
     form.prenumeUser.data = current_user.prenumeUser
-    form.numeCompanie.data = current_user.numeCompanie
+    form.adresa.data = current_user.adresa
 
-
-  imagineProfil = url_for('static', filename='profile_pics/' + current_user.imagineProfil)
-  return render_template('updateuser.html', imagineProfil=imagineProfil, form=form)
+  return render_template('updateuser.html', form=form)
 
 
 @useri.route("/<email>/removeuser", methods=['GET', 'POST'])

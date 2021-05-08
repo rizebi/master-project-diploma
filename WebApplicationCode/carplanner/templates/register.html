@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 <form method="POST">
-  {% if form.email.errors or form.parola.errors or form.parolaConfirm.errors or form.numeUser.errors or form.prenumeUser.errors or form.numeCompanie.errors%}
+  {% if form.email.errors or form.parola.errors or form.parolaConfirm.errors or form.numeUser.errors or form.prenumeUser.errors or form.adresa.errors%}
     <div class="alert alert-danger" role="alert">
   {% endif %}
   {% if form.email.errors %}
@@ -45,14 +45,14 @@
     {% endfor %}
   {% endif %}
 
-  {% if form.numeCompanie.errors %}
-    {% for error in form.numeCompanie.errors %}
+  {% if form.adresa.errors %}
+    {% for error in form.adresa.errors %}
     {{ error }}
     <br>
     {% endfor %}
   {% endif %}
 
-  {% if form.email.errors or form.parola.errors or form.parolaConfirm.errors or form.numeUser.errors or form.prenumeUser.errors or form.numeCompanie.errors%}
+  {% if form.email.errors or form.parola.errors or form.parolaConfirm.errors or form.numeUser.errors or form.prenumeUser.errors or form.adresa.errors%}
     </div>
   {% endif %}
 </form>
@@ -92,7 +92,7 @@
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-building"></i></span>
 						</div>
-            {{ form.numeCompanie(class_="form-control") }}
+            {{ form.adresa(class_="form-control") }}
 					</div>
 
 					<div class="input-group form-group">
@@ -137,7 +137,7 @@
     {{ form.email.label }} {{ form.email() }}<br>
     {{ form.numeUser.label }} {{ form.numeUser() }}<br>
     {{ form.prenumeUser.label }} {{ form.prenumeUser() }}<br>
-    {{ form.numeCompanie.label }} {{ form.numeCompanie() }}<br>
+    {{ form.adresa.label }} {{ form.adresa() }}<br>
     {{ form.parola.label }} {{ form.parola() }}<br>
     {{ form.parolaConfirm.label }} {{ form.parolaConfirm() }}<br>
     {{ form.submit() }}

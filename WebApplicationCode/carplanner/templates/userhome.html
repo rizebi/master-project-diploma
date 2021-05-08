@@ -6,7 +6,6 @@
 <div class="bg-transparent">
   <div align='center'>
     <h1 >Bine ai venit, {{nume}}!</h1>
-    <img align='center' src="{{ url_for('static', filename='profile_pics/' + user.imagineProfil) }}">
     <br><br>
     <a class="btn btn-primary" href="{{ url_for('useri.updateuser', email=current_user.email)}}" role="button">Editare Cont</a>
   </div>

@@ -25,7 +25,7 @@ class RegistrationForm(FlaskForm):
     email = StringField(validators=[DataRequired(message = "Introduceti mailul"),Email(message = "Mail invalid")], render_kw={"placeholder": "Email*"})
     numeUser = StringField(render_kw={"placeholder": "Nume"})
     prenumeUser = StringField(render_kw={"placeholder": "Prenume"})
-    numeCompanie = StringField(render_kw={"placeholder": "Nume Companie"})
+    adresa = StringField(render_kw={"placeholder": "Adresa"})
     parola = PasswordField(validators=[DataRequired(message = "Introduceti parola"), EqualTo('parolaConfirm', message='Parolele sunt diferite!')], render_kw={"placeholder": "Parola*"})
     parolaConfirm = PasswordField(validators=[DataRequired(message = "Reintroduceti parola pentru confirmare")], render_kw={"placeholder": "Confirmare Parola*"})
     submit = SubmitField('Inregistrare!')
@@ -45,16 +45,15 @@ class RegistrationForm(FlaskForm):
         if (len(str(field.data))) > 29:
           raise ValidationError('Prenumele introdus este prea lung')
 
-    def validate_numeCompanie(self, field):
+    def validate_adresa(self, field):
         if (len(str(field.data))) > 29:
-          raise ValidationError('Numele companiei introduse este prea lung')
+          raise ValidationError('Adresa introdusa este prea lunga')
 
 class UpdateUserForm(FlaskForm):
     email = StringField(validators=[DataRequired(message = "Introduceti mailul"),Email(message = "Mail invalid")], render_kw={"placeholder": "Email"})
     numeUser = StringField(render_kw={"placeholder": "Nume"})
     prenumeUser = StringField(render_kw={"placeholder": "Prenume"})
-    numeCompanie = StringField(render_kw={"placeholder": "Nume Companie"})
-    picture = FileField('Incarca fotografie de profil', validators=[FileAllowed(['jpg', 'png'])])
+    adresa = StringField(render_kw={"placeholder": "Adresa"})
     parola = PasswordField(validators=[EqualTo('parolaConfirm', message='Parolele sunt diferite!')], render_kw={"placeholder": "Parola"})
     parolaConfirm = PasswordField(render_kw={"placeholder": "Confirmare Parola"})
     submit = SubmitField('Actualizeaza')
@@ -72,6 +71,6 @@ class UpdateUserForm(FlaskForm):
         if (len(str(field.data))) > 29:
           raise ValidationError('Prenumele introdus este prea lung')
 
-    def validate_numeCompanie(self, field):
+    def validate_adresa(self, field):
         if (len(str(field.data))) > 29:
-          raise ValidationError('Numele companiei introduse este prea lung')
+          raise ValidationError('Adresa introdusa este prea lunga')
