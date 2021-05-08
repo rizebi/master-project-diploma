@@ -1,5 +1,5 @@
 from flask import render_template, request, Blueprint
-#from carplanner.models import BlogPost
+#from webapplication.models import BlogPost
 
 
 core = Blueprint('core',__name__)

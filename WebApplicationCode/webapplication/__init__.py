@@ -39,7 +39,7 @@ login_manager.login_view = "useri.login"
 
 
 
-from carplanner.models import User
+from webapplication.models import User
 # Create the tables in the database
 db.create_all()
 db.session.commit()
@@ -51,9 +51,9 @@ db.session.commit()
 ##############################
 
 
-from carplanner.core.views import core
-from carplanner.useri.views import useri
-from carplanner.error_pages.handlers import error_pages
+from webapplication.core.views import core
+from webapplication.useri.views import useri
+from webapplication.error_pages.handlers import error_pages
 
 # Register the apps
 app.register_blueprint(core)

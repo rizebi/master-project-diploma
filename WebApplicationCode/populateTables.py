@@ -1,5 +1,5 @@
-from carplanner import db
-from carplanner.models import User
+from webapplication import db
+from webapplication.models import User
 import csv
 import datetime
 

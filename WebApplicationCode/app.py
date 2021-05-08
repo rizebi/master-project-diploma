@@ -1,4 +1,4 @@
-from carplanner import app
+from webapplication import app
 import logging
 from logging.handlers import RotatingFileHandler
 

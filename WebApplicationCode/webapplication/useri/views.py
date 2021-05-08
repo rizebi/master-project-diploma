@@ -1,9 +1,9 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
 from flask_login import login_user, current_user, logout_user, login_required
-from carplanner import db, app
+from webapplication import db, app
 from werkzeug.security import generate_password_hash,check_password_hash
-from carplanner.models import User
-from carplanner.useri.forms import RegistrationForm, LoginForm, UpdateUserForm, ForgotForm
+from webapplication.models import User
+from webapplication.useri.forms import RegistrationForm, LoginForm, UpdateUserForm, ForgotForm
 import time
 import hashlib
 import smtplib
@@ -26,11 +26,11 @@ def sendMail(email, subject, hash, tip):
   if tip == "activate":
     body = "<b>Salut " + email.split("@")[0] + "!</b><br>"
     body += "<br><br>Contul a fost creat cu succes, insa necesita activare pentru a putea fi folosit!"
-    body += "<br> Pentru a il activa, acceseaza link-ul <a href='https://carplanner.ro/" + email + "/" + hash + "/activate" + "'>urmator</a></b><br><br>"
+    body += "<br> Pentru a il activa, acceseaza link-ul <a href='http://webapplication.ro/" + email + "/" + hash + "/activate" + "'>urmator</a></b><br><br>"
   elif tip == "forgot":
     body = "<b>Salut " + email.split("@")[0] + "!</b><br>"
     body += "<br><br>Ai solicitat resetarea parolei!"
-    body += "<br> Pentru a alege o noua parola, acceseaza link-ul <a href='https://carplanner.ro/" + email + "/" + hash + "/forgot" + "'>urmator</a></b><br><br>"
+    body += "<br> Pentru a alege o noua parola, acceseaza link-ul <a href='http://webapplication.ro/" + email + "/" + hash + "/forgot" + "'>urmator</a></b><br><br>"
     body += "<br><br>Daca nu tu ai solicitat resetarea parolei, ignora acest mail, contul tau este in siguranta"
 
   HTMLpart = MIMEText(body, 'html')
@@ -64,7 +64,7 @@ def register():
 
     db.session.add(user)
     db.session.commit()
-    sendMail(form.email.data, "Activare cont carplanner.ro", hashString, "activate")
+    sendMail(form.email.data, "Activare cont webapplication.ro", hashString, "activate")
     flash('Multumim pentru inregistrare! Pentru a finaliza crearea contului, te rog verifica mailul si acceseaza link-ul de activare')
     return redirect(url_for('useri.login'))
   return render_template('register.html', form=form)
@@ -116,7 +116,7 @@ def uitatparola():
     user = User.query.filter_by(email=form.email.data).first()
 
     if user is not None:
-      sendMail(user.email, "Resetare parola carplanner.ro", user.hash, "forgot")
+      sendMail(user.email, "Resetare parola webapplication.ro", user.hash, "forgot")
       flash('Un mail cu link de restare a parolei a fost trimis la mailul introdus')
     else:
       flash('Nu avem in baza de date acest mail')
