@@ -49,3 +49,25 @@ class User(db.Model, UserMixin):
 
   def get_id(self):
     return (self.IDUser)
+
+
+
+class Produs(db.Model):
+
+  # Create a table in the db
+  __tablename__ = 'produse'
+
+  IDProdus = db.Column(db.Integer, primary_key = True)
+  nume = db.Column(db.String(300), nullable=False)
+  cod = db.Column(db.String(300), nullable=False)
+  imagine = db.Column(db.String(300), nullable=False)
+  pret = db.Column(db.Integer)
+
+  def __init__(self, nume, cod, imagine, pret):
+    self.nume = nume
+    self.cod = cod
+    self.imagine = imagine
+    self.pret = pret
+
+  def __repr__(self):
+    return f"Nume: {self.numeProdus}, Cod: {self.cod}"

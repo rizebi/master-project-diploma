@@ -1,21 +1,11 @@
 from flask import render_template, request, Blueprint
 #from webapplication.models import BlogPost
-
+from webapplication import db, app
+from webapplication.models import Produs
 
 core = Blueprint('core',__name__)
 
 @core.route('/')
 def index():
-    return render_template('index.html')
-
-@core.route('/despre')
-def despre():
-    return render_template('despre.html')
-
-@core.route('/tarife')
-def tarife():
-    return render_template('tarife.html')
-
-@core.route('/contact')
-def contact():
-    return render_template('contact.html')
+  produse = db.session.query(Produs).all()
+  return render_template('index.html', produse=produse)
