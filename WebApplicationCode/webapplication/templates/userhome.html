@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
+<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css" />
 <br>
 
 <div class="bg-transparent">
@@ -9,6 +10,41 @@
     <br><br>
     <a class="btn btn-primary" href="{{ url_for('useri.updateuser', email=current_user.email)}}" role="button">Editare Cont</a>
   </div>
+</div>
+
+<div id="shopping-cart">
+  {% if produse|length != 0 %}
+  <table class="tbl-cart" cellpadding="10" cellspacing="1">
+    <tbody>
+    <tr>
+      <th style="text-align:left;">Nume</th>
+      <th style="text-align:left;">Cod Produs</th>
+      <th style="text-align:right;" width="5%">Cantitate</th>
+      <th style="text-align:right;" width="10%">Pret bucata</th>
+      <th style="text-align:right;" width="10%">Pret total</th>
+    </tr>
+    {% for produs in produse %}
+    {% set quantity = produs.qty %}
+    {% set price = produs.pret %}
+    {% set total_price = produs.pret * produs.qty %}
+
+    <tr>
+      <td><img src="/static/{{ produs.imagine }}" class="cart-item-image" />{{ produs.nume }}</td>
+      <td>{{ produs.cod }}</td>
+      <td style="text-align:right;">{{ quantity }}</td>
+      <td  style="text-align:right;">{{ price }} lei </td>
+      <td  style="text-align:right;">{{ total_price }} lei</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else: %}
+  <div class="no-records">Cosul de comparaturi este gol</div>
+  {% endif %}
+</div>
+
+<div align='center' id="un-buton">
+  <a class="btn float-left btn-primary" href="{{ url_for('core.index') }}">Inapoi</a>
 </div>
 
 {% endblock %}

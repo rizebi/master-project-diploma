@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint,
 from flask_login import login_user, current_user, logout_user, login_required
 from webapplication import db, app
 from werkzeug.security import generate_password_hash,check_password_hash
-from webapplication.models import User
+from webapplication.models import User, Produs
 from webapplication.useri.forms import RegistrationForm, LoginForm, UpdateUserForm, ForgotForm
 import time
 import hashlib
@@ -159,10 +159,6 @@ def activateuser(email, hash):
     flash("Nu s-a putut activa contul. Te rugam sa accesezi din nou linkul din email!")
     return redirect(url_for('useri.userhome', email=email))
 
-
-
-
-
 @useri.route("/<email>/updateuser", methods=['GET', 'POST'])
 @login_required
 def updateuser(email):
@@ -236,4 +232,75 @@ def userhome(email):
   else:
     nume = current_user.prenumeUser
 
-  return render_template('userhome.html', user=user, nume=nume)
+  ### Get produse to render
+  produse = getProduseForUser(user.shopping)
+  return render_template('userhome.html', user=user, nume=nume, produse=produse)
+
+@login_required
+@app.route('/<email>/add', methods=['POST'])
+def add_product_to_cart(email):
+
+  ### Basic stuff
+  if email != current_user.email:
+    # Forbidden, No Access
+    abort(403)
+
+  user = User.query.filter_by(email=email).first_or_404()
+
+  if current_user.prenumeUser is None or current_user.prenumeUser == "" or current_user.prenumeUser == " ":
+    nume = current_user.email.split("@")[0]
+  else:
+    nume = current_user.prenumeUser
+
+  ### Add product to user cart
+  newCartString = updateProduseForUser(user.shopping, request.form['code'], request.form['quantity'])
+
+  ### Write in DB
+  user.shopping = newCartString
+  db.session.commit()
+
+  ### Get produse to render
+  produse = getProduseForUser(user.shopping)
+
+
+  return render_template('userhome.html', user=user, nume=nume, produse=produse)
+
+
+def updateProduseForUser(initialCartString, product_code, qty):
+  ## Deserialize
+  produse = {}
+  for produs in initialCartString.split(";"):
+    if "=" in produs:
+      cod = produs.split("=")[0]
+      qant = int(produs.split("=")[1])
+      produse[cod] = qant
+
+  ## Add in dict new product
+  if product_code in produse:
+    produse[product_code] += int(qty)
+  else:
+    produse[product_code] = int(qty)
+
+  ## Serialize
+  newCartString = ""
+  for product_code in produse.keys():
+    newCartString += ";" + product_code + "=" + str(produse[product_code])
+
+  if newCartString[0] == ";":
+    newCartString = newCartString[1:]
+
+  return newCartString
+
+def getProduseForUser(cartString):
+  # cart string is "<product_code_1>=<qty1>;<product_code_2>=<qty2>"
+  ## Get all produse
+  produse = []
+
+  for produs in cartString.split(";"):
+    if "=" in produs:
+      product_code = produs.split("=")[0]
+      qty = int(produs.split("=")[1])
+      product = Produs.query.filter_by(cod = product_code).first()
+      produse.append({"nume": product.nume, "cod": product.cod, "imagine": product.imagine, "pret": product.pret, "qty": qty})
+
+  return produse
