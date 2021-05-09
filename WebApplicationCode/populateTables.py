@@ -18,8 +18,12 @@ def populateProdus():
   produse.append(Produs('Laptop', 'LPN4', 'product-images/laptop.jpg', 2339))
   produse.append(Produs('Camera', '3DCAM01', 'product-images/camera.jpg', 969))
   produse.append(Produs('Telefon mobil', 'MB06', 'product-images/mobile.jpg', 649))
-  produse.append(Produs('Casti', 'HD08', 'product-images/headphone.jpg', 199))
+  produse.append(Produs('Casti in ear', 'HD08', 'product-images/headphone.jpg', 199))
   produse.append(Produs('Ceas', 'WH14', 'product-images/watch.jpg', 519))
+  produse.append(Produs('Mouse wireless', 'MO12', 'product-images/mouse.png', 59))
+  produse.append(Produs('Cutit bucatarie', 'KN04', 'product-images/knife.jpg', 29))
+  produse.append(Produs('Scaun', 'CH4', 'product-images/chair.jpg', 99))
+  produse.append(Produs('USB Stick 64GB', 'USB55', 'product-images/usb.jpg', 89))
 
   db.session.add_all(produse)
   db.session.commit()

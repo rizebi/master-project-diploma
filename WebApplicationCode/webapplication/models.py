@@ -28,6 +28,7 @@ class User(db.Model, UserMixin):
   email = db.Column(db.String(30), nullable=False)
   parola = db.Column(db.String(128))
   adresa = db.Column(db.String(30))
+  shopping = db.Column(db.String(300))
   activated = db.Column(db.Boolean)
   hash = db.Column(db.String(50))
 
@@ -38,6 +39,7 @@ class User(db.Model, UserMixin):
     self.adresa = adresa
     self.parola = generate_password_hash(parola)
     self.activated = False
+    self.shopping = ""
     self.hash = hash
 
   def check_password(self, parola):

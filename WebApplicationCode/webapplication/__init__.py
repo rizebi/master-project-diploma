@@ -19,7 +19,7 @@ app.config['SECRET_KEY'] = 'mysecret'
 ### DATABASE SETUPS ############
 ###############################
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:mypassword@mysql/car-planner'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:mypassword@mysql/webapplication'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 3600
 

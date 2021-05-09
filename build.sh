@@ -40,7 +40,7 @@ fi
 
 if [ "$1" != "stop" ]; then
   sleep 1
-  sudo docker stack deploy -c docker-compose.yml car-planner
+  sudo docker stack deploy -c docker-compose.yml webapplication
 fi
 
 if [ "$1" == "stop" ]; then

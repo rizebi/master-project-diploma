@@ -3,7 +3,7 @@ services:
   mysql:
     image: mysql:5.7
     environment:
-      MYSQL_DATABASE: 'car-planner'
+      MYSQL_DATABASE: 'webapplication'
       MYSQL_ROOT_PASSWORD: 'mypassword'
     deploy:
       replicas: 1

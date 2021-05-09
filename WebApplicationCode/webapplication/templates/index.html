@@ -3,13 +3,10 @@
 
 <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css" />
 
-
-<div class="container">
-  <div class="d-flex justify-content-center h-100">
-    <div align='center'>
-      <h1 >Bine ati venit la magazinul nostru. Mai jos gasiti lista de produse!</h1>
-    </div>
-  </div>
+<br>
+<br>
+<div align='center'>
+  <h1 >Bine ati venit la magazinul nostru. Mai jos gasiti lista de produse!</h1>
 </div>
 
 <div id="product-grid">
@@ -20,11 +17,12 @@
       <div class="product-image"><img src="/static/{{ product.imagine }}"></div>
       <div class="product-tile-footer">
         <div class="product-title">{{ product.nume }}</div>
+        <br>
         <div class="product-price">{{ product.pret }} lei</div>
         <div class="cart-action">
           <input type="hidden" name="code" value="{{ product.cod }}"/>
           <input type="text" class="product-quantity" name="quantity" value="1" size="2" />
-          <input type="submit" value="Add to Cart" class="btnAddAction" />
+          <input type="submit" value="Adauga" class="btn btn-primary" />
         </div>
       </div>
     </form>
