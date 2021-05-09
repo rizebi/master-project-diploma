@@ -23,6 +23,10 @@
           <input type="hidden" name="code" value="{{ product.cod }}"/>
           <input type="text" class="product-quantity" name="quantity" value="1" size="2" />
           <input type="submit" value="Adauga" class="btn btn-primary" />
+
+          <a class="btn btn-primary" href="{{ url_for('useri.updateuser', email=current_user.email)}}" role="button">Editare Cont</a>
+
+
         </div>
       </div>
     </form>

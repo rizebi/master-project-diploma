@@ -26,11 +26,11 @@ height: 20px;
 }
 
 .card-body-custom{
-	display:flex;
-	justify-content: center;
-	flex-direction: column;
-	align-content: center;
-	height: 400px;
+  display:flex;
+  justify-content: center;
+  flex-direction: column;
+  align-content: center;
+  height: 400px;
 }
 
 .input-group-prepend span{
@@ -62,7 +62,7 @@ color: #261E73;
 }
 
 label{
-	color: white;
-	font-weight: normal;
-	font-size: 17px;
+  color: white;
+  font-weight: normal;
+  font-size: 17px;
 }

@@ -25,11 +25,11 @@ color: white;
 }
 
 .card-body-custom{
-	display:flex;
-	justify-content: center;
-	flex-direction: column;
-	align-content: center;
-	height: 170px;
+  display:flex;
+  justify-content: center;
+  flex-direction: column;
+  align-content: center;
+  height: 170px;
 }
 
 .input-group-prepend span{
