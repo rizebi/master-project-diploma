@@ -6,7 +6,7 @@
 
 <div class="bg-transparent">
   <div align='center'>
-    <h1 >Bine ai venit, {{nume}}!</h1>
+    <h2>Bine ai venit, {{nume}}!</h2>
     <br><br>
     <a class="btn btn-primary" href="{{ url_for('useri.updateuser', email=current_user.email)}}" role="button">Editare Cont</a>
   </div>
@@ -39,12 +39,26 @@
     </tbody>
   </table>
   {% else: %}
-  <div class="no-records">Cosul de comparaturi este gol</div>
+  <div class="no-records">
+    <h2>Cosul de comparaturi este gol</h2>
+  </div>
   {% endif %}
 </div>
 
-<div align='center' id="un-buton">
-  <a class="btn float-left btn-primary" href="{{ url_for('core.index') }}">Inapoi</a>
+<div class="un-buton">
+  <div style="margin: 20px;">
+    <a class="btn float-left btn-secondary" href="{{ url_for('core.index') }}">Inapoi</a>
+  </div>
+  <div style="margin: 20px;">
+    <form align='center' method="post" action="/{{ current_user.email }}/goleste">
+      <input type="submit" value="Goleste cosul de cumparaturi" class="btn btn-danger" />
+    </form>
+  </div>
+  <div style="margin: 20px;">
+    <form align='center' method="post" action="/{{ current_user.email }}/order">
+      <input type="submit" value="Comanda produsele din cos" class="btn btn-primary" />
+    </form>
+  </div>
 </div>
 
 {% endblock %}

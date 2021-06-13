@@ -9,30 +9,63 @@
   <h1 >Bine ati venit la magazinul nostru. Mai jos gasiti lista de produse!</h1>
 </div>
 
-<div id="product-grid">
-  {% for product in produse %}
-
-  <div class="product-item">
-    <form method="post" action="/{{ current_user.email }}/add">
-      <div class="product-image"><img src="/static/{{ product.imagine }}"></div>
-      <div class="product-tile-footer">
-        <div class="product-title">{{ product.nume }}</div>
-        <br>
-        <div class="product-price">{{ product.pret }} lei</div>
-        <div class="cart-action">
-          <input type="hidden" name="code" value="{{ product.cod }}"/>
-          <input type="text" class="product-quantity" name="quantity" value="1" size="2" />
-          {% if current_user.is_authenticated %}
+<div class="margini">
+  <div class="display-product-items" id="product-grid" align="center">
+    {% for product in produse %}
+    <div class="product-item">
+      <form method="post" action="/{{ current_user.email }}/add">
+        <div class="product-image"><img src="/static/{{ product.imagine }}"></div>
+        <div class="product-tile-footer">
+          <div class="product-title">{{ product.nume }}</div>
+          <br>
+          <div class="product-price">{{ product.pret }} lei</div>
+          <div class="cart-action">
+            <input type="hidden" name="code" value="{{ product.cod }}"/>
+            <input type="text" class="product-quantity" name="quantity" value="1" size="2" />
+            {% if current_user.is_authenticated %}
             <input type="submit" value="Adauga in cos" class="btn btn-primary" />
-          {% else %}
+            {% else %}
             <input value="Log in pentru adaugare" class="btn btn-secondary" disabled />
-          {% endif %}
+            {% endif %}
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
-
 </div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<!--&lt;!&ndash;div pentru generare de card-uri&ndash;&gt;-->
+<!--<div align="center" id="product-grid-deprec">-->
+<!--  {% for product in produse %}-->
+<!--  <div class="product-item">-->
+<!--    <form method="post" action="/{{ current_user.email }}/add">-->
+<!--      <div class="product-image"><img src="/static/{{ product.imagine }}"></div>-->
+<!--      <div class="product-tile-footer">-->
+<!--        <div class="product-title">{{ product.nume }}</div>-->
+<!--        <br>-->
+<!--        <div class="product-price">{{ product.pret }} lei</div>-->
+<!--        <div class="cart-action">-->
+<!--          <input type="hidden" name="code" value="{{ product.cod }}"/>-->
+<!--          <input type="text" class="product-quantity" name="quantity" value="1" size="2" />-->
+<!--          {% if current_user.is_authenticated %}-->
+<!--            <input type="submit" value="Adauga in cos" class="btn btn-primary" />-->
+<!--          {% else %}-->
+<!--            <input value="Log in pentru adaugare" class="btn btn-secondary" disabled />-->
+<!--          {% endif %}-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </form>-->
+<!--  </div>-->
+<!--  {% endfor %}-->
+<!--</div>-->
 
 {% endblock %}

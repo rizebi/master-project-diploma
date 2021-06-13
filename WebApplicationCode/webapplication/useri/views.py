@@ -64,7 +64,7 @@ def register():
 
     db.session.add(user)
     db.session.commit()
-    sendMail(form.email.data, "Activare cont webapplication.ro", hashString, "activate")
+    sendMail(form.email.data, "Activare cont tarabaluieusebiu.ro", hashString, "activate")
     flash('Multumim pentru inregistrare! Pentru a finaliza crearea contului, te rog verifica mailul si acceseaza link-ul de activare')
     return redirect(url_for('useri.login'))
   return render_template('register.html', form=form)
@@ -262,6 +262,73 @@ def add_product_to_cart(email):
   ### Get produse to render
   produse = getProduseForUser(user.shopping)
 
+
+  return render_template('userhome.html', user=user, nume=nume, produse=produse)
+
+
+@login_required
+@app.route('/<email>/order', methods=['POST'])
+def order_products(email):
+
+  ### Basic stuff
+  if email != current_user.email:
+    # Forbidden, No Access
+    abort(403)
+
+  user = User.query.filter_by(email=email).first_or_404()
+
+  if current_user.prenumeUser is None or current_user.prenumeUser == "" or current_user.prenumeUser == " ":
+    nume = current_user.email.split("@")[0]
+  else:
+    nume = current_user.prenumeUser
+
+  ### Get produse to render
+  produse = getProduseForUser(user.shopping)
+  if len(produse) == 0:
+    flash("Cosul este gol. Adauga produse in cos pentru a le putea comanda.")
+  else:
+    flash("Comanda plasata. Produsele vor fi expediate la adresa specificata in cont.")
+
+  ### Add product to user cart
+  newCartString = ""
+
+  ### Write in DB
+  user.shopping = newCartString
+  db.session.commit()
+
+  ### Get produse to render
+  produse = getProduseForUser(user.shopping)
+
+  return render_template('userhome.html', user=user, nume=nume, produse=produse)
+
+@login_required
+@app.route('/<email>/goleste', methods=['POST'])
+def goleste(email):
+
+  ### Basic stuff
+  if email != current_user.email:
+    # Forbidden, No Access
+    abort(403)
+
+  user = User.query.filter_by(email=email).first_or_404()
+
+  if current_user.prenumeUser is None or current_user.prenumeUser == "" or current_user.prenumeUser == " ":
+    nume = current_user.email.split("@")[0]
+  else:
+    nume = current_user.prenumeUser
+
+  ### Add product to user cart
+  newCartString = ""
+
+  ### Write in DB
+  user.shopping = newCartString
+  db.session.commit()
+
+  ### Get produse to render
+  produse = getProduseForUser(user.shopping)
+
+  ### Flash message
+  flash("Cosul de cumparaturi golit cu succes.")
 
   return render_template('userhome.html', user=user, nume=nume, produse=produse)
 
