@@ -116,8 +116,8 @@ def uitatparola():
     user = User.query.filter_by(email=form.email.data).first()
 
     if user is not None:
-      sendMail(user.email, "Resetare parola webapplication.ro", user.hash, "forgot")
-      flash('Un mail cu link de restare a parolei a fost trimis la mailul introdus')
+      sendMail(user.email, "Resetare parola tarabaluieusebiu.ro", user.hash, "forgot")
+      flash('Un mail cu link de resetare a parolei a fost trimis la mailul introdus')
     else:
       flash('Nu avem in baza de date acest mail')
   return render_template('uitatparola.html', form=form)
