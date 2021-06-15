@@ -1,13 +1,14 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: dizertatie-service
+  name: dizertatie-service-db
 spec:
   type: LoadBalancer
   ports:
     - name: http
-      port: 80
-      targetPort: 7000
+      port: 3306
+      targetPort: 3306
       protocol: TCP
   selector:
-    app: dizertatie
+    app: dizertatie-db
+    version: "1"

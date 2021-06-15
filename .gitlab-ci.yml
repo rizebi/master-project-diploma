@@ -1,0 +1,77 @@
+stages:
+  - canary
+
+image:
+  name: traherom/kustomize-docker
+  entrypoint: [""]
+
+###########################
+# Canary
+0_fullPipeline_canary:
+  tags:
+    - docker
+  stage: canary
+  script:
+    - cd UpgradeMethodsProofOfConcept/Kubernetes/Upgrade-Canary
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh full
+  environment:
+    name: canary
+    url: https://canary.example.com
+  when: manual
+
+1_onlyVersion1_canary:
+  tags:
+    - docker
+  stage: canary
+  script:
+    - cd UpgradeMethodsProofOfConcept/Kubernetes/Upgrade-Canary
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh delete
+    - ./fullPipeline.sh v1
+  environment:
+    name: canary
+    url: https://canary.example.com
+  when: manual
+
+2_bothVersions_canary:
+  tags:
+    - docker
+  stage: canary
+  script:
+    - cd UpgradeMethodsProofOfConcept/Kubernetes/Upgrade-Canary
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh v2
+  environment:
+    name: canary
+    url: https://canary.example.com
+  when: manual
+
+3_rollBack_canary:
+  tags:
+    - docker
+  stage: canary
+  script:
+    - cd UpgradeMethodsProofOfConcept/Kubernetes/Upgrade-Canary
+    - for i in *; do sed -i "s|CI_PROJECT_PATH_SLUG|${CI_PROJECT_PATH_SLUG}|g" "$i"; done
+    - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
+    - ./fullPipeline.sh rollback
+  environment:
+    name: canary
+    url: https://canary.example.com
+  when: manual
+
+4_deleteAll_canary:
+  tags:
+    - docker
+  stage: canary
+  script:
+    - cd UpgradeMethodsProofOfConcept/Kubernetes/Upgrade-Canary
+    - ./fullPipeline.sh delete
+  environment:
+    name: canary
+    url: https://canary.example.com
+  when: manual

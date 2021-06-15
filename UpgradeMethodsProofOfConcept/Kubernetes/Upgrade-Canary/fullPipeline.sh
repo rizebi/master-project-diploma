@@ -13,6 +13,9 @@ if [[ "x$1" == "xfull" || "x$1" == "xdelete" || "x$1" == "xv1" ]]; then
 fi
 
 if [[ "x$1" == "xfull" || "x$1" == "xv1" ]]; then
+  echo "Start DB"
+  kubectl apply -f deployment-db.yml -f service-db.yml
+  sleep 60
   date
   echo "Start version 1"
   kubectl apply -f deployment-version1.yml -f service-version1.yml -f ingress-version1.yml

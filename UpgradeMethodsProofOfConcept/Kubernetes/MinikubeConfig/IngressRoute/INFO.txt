@@ -1,6 +1,0 @@
-In a new cluster run:
-kubectl apply -f definition.yml -f service.yml -f deployment.yml
-
-The forward the ports:
-kubectl port-forward --address 0.0.0.0 service/traefik 8000:8000 8080:8080 443:4443 -n default &
-
