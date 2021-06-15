@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="/static/uitatparola.css"/>
+<!--Fontawesome CDN-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+<form method="POST">
+  {% if form.email.errors%}
+    <div class="alert alert-danger" role="alert">
+  {% endif %}
+  {% if form.email.errors %}
+        {% for error in form.email.errors %}
+          {{ error }}
+          <br>
+        {% endfor %}
+
+  {% endif %}
+  {% if form.email.errors%}
+    </div>
+  {% endif %}
+</form>
+
+<div class="container">
+  <div class="d-flex justify-content-center h-100">
+    <div class="card">
+      <div class="card-header">
+        <h3>Introduceti mailul</h3>
+      </div>
+      <div class="card-body card-body-custom">
+        <form method="POST">
+          {{ form.hidden_tag() }}
+          {{ form.csrf_token }}
+          <div class="input-group form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-user"></i></span>
+            </div>
+            {{ form.email(class_="form-control") }}
+          </div>
+          <div class="form-group">
+            {{ form.submit(class_="btn float-right login_btn") }}
+          </div>
+
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="d-flex justify-content-center links">
+          Nu ai cont?<a href="/register">Creeaza cont nou</a>
+        </div>
+        <div class="d-flex justify-content-center links">
+          Ai deja cont?<a href="/login">Conecteaza-te</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

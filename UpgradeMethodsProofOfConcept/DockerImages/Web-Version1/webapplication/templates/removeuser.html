@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="container jumbotron bg-transparent">
+  <h1 class="display-5">Esti sigur ca vrei sa iti stergi definitiv contul?</h1>
+    <div class="text-center">
+      <a class="btn float-left btn-primary" href="{{ url_for('useri.updateuser', email=current_user.email) }}">Inapoi</a>
+      <a class="btn btn-success btn-lg" href="{{ url_for('useri.removeuseryes', email=current_user.email) }}" role="button">Da</a>
+      <a class="btn btn-danger btn-lg" href="{{ url_for('useri.userhome', email=current_user.email) }}" role="button">Nu</a>
+    </div>
+</div>
+
+
+{% endblock %}
