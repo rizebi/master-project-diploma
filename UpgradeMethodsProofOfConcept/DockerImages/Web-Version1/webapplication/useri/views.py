@@ -9,6 +9,7 @@ import hashlib
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import socket
 
 useri = Blueprint('useri', __name__)
 
@@ -210,10 +211,12 @@ def removeuseryes(email):
 
   db.session.commit()
 
+  produse = db.session.query(Produs).all()
+  instance_ip = socket.gethostbyname(socket.gethostname())
 
   flash("Ne pare rau ca pleci! Contul tau a fost sters cu scucces")
 
-  return render_template('index.html')
+  return render_template('index.html', produse=produse, instance_ip=instance_ip)
 
 
 
