@@ -1,16 +1,15 @@
-import time
+import time # for sleep
 import json # for JSON manipulation
-import requests
-import threading
-from flask import Flask
+import requests # for requests launching
+import threading # for threading purposes
+from flask import Flask # used for exposing metrics
 
-# Static values
+# Variables
 
 # For A/B testing setup
 #destinationIP = "http://localhost:8000"
 # For all other setups
 destinationIP = "http://192.168.64.2"
-
 userAgent1 = "Always-Good"
 userAgent2 = "Sometimes-Fail"
 hostnameToUse = "dizertatie.com"
@@ -25,7 +24,7 @@ requests500V1 = 0
 requests200V2 = 0
 requests500V2 = 0
 
-
+# Load test function
 def loadTest():
   global requests200V1
   global requests500V1
@@ -61,6 +60,7 @@ def loadTest():
       pass
     time.sleep(0.01)
 
+# Page that is queried by Prometheus to get metrics
 @app.route('/')
 def index():
   global requests200V1
@@ -83,6 +83,7 @@ def index():
 
   return stringToReturn
 
+# Main
 if __name__ == "__main__":
   loadTestThread = threading.Thread(target=loadTest, name="loadTester", args="")
   loadTestThread.start()
