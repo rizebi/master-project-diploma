@@ -19,7 +19,7 @@ app.config['SECRET_KEY'] = 'mysecret'
 ### DATABASE SETUPS ############
 ###############################
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:mypassword@dizertatie-service-db.canary-de-mana.svc.cluster.local/webapplication'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:mypassword@dizertatie-service-db.dizertatie-minikube-24349559-canary.svc.cluster.local/webapplication'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 3600
 
