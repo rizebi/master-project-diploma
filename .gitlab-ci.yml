@@ -17,7 +17,7 @@ image:
     - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
     - ./fullPipeline.sh full
   environment:
-    name: canary
+    name: canary-web
     url: https://canary.example.com
   when: manual
 
@@ -32,7 +32,7 @@ image:
     - ./fullPipeline.sh delete
     - ./fullPipeline.sh v1
   environment:
-    name: canary
+    name: canary-web
     url: https://canary.example.com
   when: manual
 
@@ -46,7 +46,7 @@ image:
     - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
     - ./fullPipeline.sh v2
   environment:
-    name: canary
+    name: canary-web
     url: https://canary.example.com
   when: manual
 
@@ -60,7 +60,7 @@ image:
     - for i in *; do sed -i "s|CI_ENVIRONMENT_SLUG|${CI_ENVIRONMENT_SLUG}|g" "$i"; done
     - ./fullPipeline.sh rollback
   environment:
-    name: canary
+    name: canary-web
     url: https://canary.example.com
   when: manual
 
@@ -72,6 +72,6 @@ image:
     - cd UpgradeMethodsProofOfConcept/Kubernetes/Upgrade-Canary
     - ./fullPipeline.sh delete
   environment:
-    name: canary
+    name: canary-web
     url: https://canary.example.com
   when: manual

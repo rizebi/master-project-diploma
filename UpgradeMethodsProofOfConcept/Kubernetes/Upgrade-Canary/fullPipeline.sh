@@ -19,11 +19,8 @@ if [[ "x$1" == "xfull" || "x$1" == "xv1" ]]; then
   date
   echo "Start version 1"
   kubectl apply -f deployment-version1.yml -f service-version1.yml -f ingress-version1.yml
-  sleep 10
-  kubectl -n dizertatie-minikube-24349559-canary exec $(kubectl -n dizertatie-minikube-24349559-canary get pods | grep production | grep -v "production-db" | head -1 | tr -s " " | cut -d " " -f 1) python3 populateTables.py
-
   if [[ "x$1" == "xfull" ]]; then
-    sleep 290
+    sleep 300
   fi
 fi
 

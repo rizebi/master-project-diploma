@@ -35,26 +35,26 @@ def loadTest():
     try:
       # User Agent 1
       headers = {'User-Agent': userAgent1, 'Host': hostnameToUse}
-      resp = requests.get(destinationIP, headers=headers)
-      if "Bine ati venit la magazinul nostru - Versiunea 1" in resp.text:
+      resp = requests.get(destinationIP, headers=headers).json()
+      if resp["appVersion"] == "1" and resp["status"] == "200":
         requests200V1 += 1
-      if '{"appVersion": "1", "status": "500"' in resp.text:
+      if resp["appVersion"] == "1" and resp["status"] == "500":
         requests500V1 += 1
-      if "Bine ati venit la magazinul nostru - Versiunea 2" in resp.text:
+      if resp["appVersion"] == "2" and resp["status"] == "200":
         requests200V2 += 1
-      if '{"appVersion": "2", "status": "500"' in resp.text:
+      if resp["appVersion"] == "2" and resp["status"] == "500":
         requests500V2 += 1
 
       # User Agent 2
       headers = {'User-Agent': userAgent2, 'Host': hostnameToUse}
-      resp = requests.get(destinationIP, headers=headers)
-      if "Bine ati venit la magazinul nostru - Versiunea 1" in resp.text:
+      resp = requests.get(destinationIP, headers=headers).json()
+      if resp["appVersion"] == "1" and resp["status"] == "200":
         requests200V1 += 1
-      if '{"appVersion": "1", "status": "500"' in resp.text:
+      if resp["appVersion"] == "1" and resp["status"] == "500":
         requests500V1 += 1
-      if "Bine ati venit la magazinul nostru - Versiunea 2" in resp.text:
+      if resp["appVersion"] == "2" and resp["status"] == "200":
         requests200V2 += 1
-      if '{"appVersion": "2", "status": "500"' in resp.text:
+      if resp["appVersion"] == "2" and resp["status"] == "500":
         requests500V2 += 1
     except:
       pass
@@ -88,3 +88,4 @@ if __name__ == "__main__":
   loadTestThread = threading.Thread(target=loadTest, name="loadTester", args="")
   loadTestThread.start()
   app.run(host='0.0.0.0', port=portToExposeMetrics)
+
