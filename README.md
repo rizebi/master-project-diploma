@@ -3,7 +3,7 @@ minikube start
 kubectl proxy --port=19970 --address 0.0.0.0 --accept-hosts '.*' &
 
 cd /Users/eusebiu.rizescu/Data/Git/dizertatie-minikube/UpgradeMethodsProofOfConcept/Scripts
-python3 loadTest.oy
+python3 loadTest.py
 
 Start V1 from Gitlab
 
