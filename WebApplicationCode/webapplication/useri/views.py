@@ -12,9 +12,9 @@ from email.mime.text import MIMEText
 
 useri = Blueprint('useri', __name__)
 
+gmail_user = 'SENDER@EMAIL.com'
+gmail_password = 'PASSWORD'
 
-gmail_user = 'carplannerroot@gmail.com'
-gmail_password = 'samsungS3'
 
 def sendMail(email, subject, hash, tip):
 

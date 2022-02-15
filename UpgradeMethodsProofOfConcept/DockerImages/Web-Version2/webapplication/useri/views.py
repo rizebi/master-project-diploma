@@ -13,9 +13,8 @@ import socket
 
 useri = Blueprint('useri', __name__)
 
-
-gmail_user = 'carplannerroot@gmail.com'
-gmail_password = 'samsungS3'
+gmail_user = 'SENDER@EMAIL.com'
+gmail_password = 'PASSWORD'
 
 def sendMail(email, subject, hash, tip):
 
